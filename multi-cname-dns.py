@@ -158,13 +158,14 @@ def run():
             + ServerCfg.hw_api["endpoint"]
             + "/v2/zones",
         )
+        zone_list_j = zone_list_r.json()
         if zone_list_r.status_code != 200:
-            critical("错误：查询 Zone 列表失败，错误信息：" + str(zone_list_r.json()["message"]))
+            critical("错误：查询 Zone 列表失败，错误信息：" + str(zone_list_j["error_msg"]))
             return
-        zones = zone_list_r.json()["zones"]
-        while "next" in zone_list_r.json()["links"]:
-            zone_list_r = hwapi_requester("GET", zone_list_r.json()["links"]["next"])
-            zones.append(zone_list_r.json()["zones"])
+        zones = zone_list_j["zones"]
+        while "next" in zone_list_j["links"]:
+            zone_list_r = hwapi_requester("GET", zone_list_j["links"]["next"])
+            zones.append(zone_list_j["zones"])
 
         with requests.sessions.Session() as lookup_session:
             for one_up_item in up_item_list:
