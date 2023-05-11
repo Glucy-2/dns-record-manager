@@ -1,0 +1,40 @@
+{
+    "server_config": {
+        "dns_query_server": "https://cloudflare-dns.com/dns-query",
+        "hw_api": {
+            "scheme": "https",
+            "endpoint": "dns.myhuaweicloud.com",
+            "ak": "QTWAOY********VKYUC",
+            "sk": "MFyfvK41ba2giqM7**********KGpownRZlmVmHc"
+        }
+    },
+    "update_items": [
+        {
+            "hostname": "skimit.net",
+            "enable_ipv4": true,
+            "enable_ipv6": true,
+            "cname_records": [
+                "13651f0bb6f16c90.qaxwzws.com",
+                "skimit.net.s2-web.dogedns.com",
+                "skimit-homepage.b0.aicdn.com"
+            ],
+            "ipv4_ips": [],
+            "ipv6_ips": [],
+            "description": "",
+            "ttl": 300
+        },
+        {
+            "hostname": "www.skimit.net",
+            "enable_ipv4": true,
+            "enable_ipv6": true,
+            "cname_records": [
+                "skimit.net.s2-web.dogedns.com",
+                "skimit-homepage.b0.aicdn.com"
+            ],
+            "ipv4_ips": [],
+            "ipv6_ips": [],
+            "description": "",
+            "ttl": 300
+        }
+    ]
+}
