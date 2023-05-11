@@ -37,3 +37,6 @@ jobs:
       # Run script
       - run: |
           python multi-cname-dns.py
+        env: # Set environment variables
+          HW_API_KEY: ${{ secrets.HW_API_KEY }}
+          HW_API_SECRET: ${{ secrets.HW_API_SECRET }}
