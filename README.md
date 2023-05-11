@@ -16,7 +16,7 @@
 ### 本地运行
     1. 安装 Python 3.6+ 环境（已在 Python 3.6.8 和 3.11.2 中测试通过）
     2. 下载本项目
-    3. 安装依赖（`Requests` `dnspython`）
+    3. 安装依赖（`dnspython` `Requests` `requests-toolbelt`）
     4. [修改配置文件](#配置文件)
     5. 设置定时任务或手动执行
 ## 注意事项
