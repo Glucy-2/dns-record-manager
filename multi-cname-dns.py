@@ -207,7 +207,7 @@ def run():
                         if one_up_item.hostname.endswith(".")
                         else one_up_item.hostname + "."
                     )
-                    if zone["name"].endswith(domain):
+                    if domain.endswith(zone["name"]):
                         zone_name = zone["name"]
                         zone_id = zone["id"]
                         info(
