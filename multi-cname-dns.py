@@ -29,7 +29,15 @@ class ServerCfg:
 
 class UpItem:
     def __init__(
-        self, hostname, enable_ipv4, enable_ipv6, cname_records, ipv4_ips, ipv6_ips, description, ttl
+        self,
+        hostname,
+        enable_ipv4,
+        enable_ipv6,
+        cname_records,
+        ipv4_ips,
+        ipv6_ips,
+        description,
+        ttl,
     ):
         self.hostname = hostname
         self.enable_ipv4 = enable_ipv4
@@ -65,7 +73,7 @@ def read_config() -> list:
                     item["ipv4_ips"],
                     item["ipv6_ips"],
                     item["description"],
-                    item["ttl"]
+                    item["ttl"],
                 )
             )
         info("总共读取了 " + str(len(up_item_list)) + " 个更新项目")
@@ -278,12 +286,15 @@ def run():
                                 update_record_j = update_record_r.json()
                                 if update_record_r.status_code == 202:
                                     info(
-                                        "更新成功，记录已更新为 "
+                                        one_up_item.hostname
+                                        + "的 IPv4 更新成功，记录已更新为 "
                                         + str(update_record_j["records"])
                                     )
                                 else:
                                     error(
-                                        "错误：更新记录失败，错误信息："
+                                        "错误："
+                                        + one_up_item.hostname
+                                        + "的更新记录失败，错误信息："
                                         + str(update_record_j["message"])
                                     )
                             else:
@@ -303,7 +314,9 @@ def run():
                                     info("删除成功")
                                 else:
                                     error(
-                                        "错误：删除记录失败，错误信息："
+                                        "错误："
+                                        + one_up_item.hostname
+                                        + "的 IPv4 地址删除记录失败，错误信息："
                                         + str(del_record_j["message"])
                                     )
                             ipv4_done = True
@@ -332,12 +345,15 @@ def run():
                                 update_record_j = update_record_r.json()
                                 if update_record_r.status_code == 202:
                                     info(
-                                        "更新成功，记录已更新为 "
+                                        one_up_item.hostname
+                                        + "的 IPv6 更新成功，记录已更新为 "
                                         + str(update_record_j["records"])
                                     )
                                 else:
                                     error(
-                                        "错误：更新记录失败，错误信息："
+                                        "错误："
+                                        + one_up_item.hostname
+                                        + "的 IPv6 更新记录失败，错误信息："
                                         + str(update_record_j["message"])
                                     )
                             else:
@@ -354,10 +370,12 @@ def run():
                                 )
                                 del_record_j = del_record_r.json()
                                 if del_record_r.status_code == 202:
-                                    info("删除成功")
+                                    info(one_up_item.hostname + "的 IPv6 记录删除成功")
                                 else:
                                     error(
-                                        "错误：删除记录失败，错误信息："
+                                        "错误："
+                                        + one_up_item.hostname
+                                        + "的 IPv6 删除记录失败，错误信息："
                                         + str(del_record_j["message"])
                                     )
                             ipv6_done = True
@@ -383,11 +401,20 @@ def run():
                     )
                     add_record_j = add_record_r.json()
                     if add_record_r.status_code == 202:
-                        info("添加成功，记录已添加为 " + str(add_record_j["records"]))
+                        info(
+                            one_up_item.hostname
+                            + " 的 IPv4 地址添加成功，记录已添加为 "
+                            + str(add_record_j["records"])
+                        )
                     else:
-                        error("错误：添加记录失败，错误信息：" + str(add_record_j["message"]))
+                        error(
+                            "错误："
+                            + one_up_item.hostname
+                            + " 的 IPv4 地址添加记录失败，错误信息："
+                            + str(add_record_j["message"])
+                        )
                 else:
-                    info("没有 IPv4 地址记录需要更新、删除或添加")
+                    warning(one_up_item.hostname + "没有 IPv4 地址记录需要更新、删除或添加")
                 if not ipv6_done and one_up_item.ipv6_ips:
                     info("正在添加 " + one_up_item.hostname + " 设置的 IPv6 地址……")
                     add_record_r = hwapi_requester(
@@ -410,9 +437,20 @@ def run():
                     )
                     add_record_j = add_record_r.json()
                     if add_record_r.status_code == 202:
-                        info("添加成功，记录已添加为 " + str(add_record_j["records"]))
+                        info(
+                            one_up_item.hostname
+                            + " 的 IPv6 地址添加成功，记录已添加为 "
+                            + str(add_record_j["records"])
+                        )
                     else:
-                        error("错误：添加记录失败，错误信息：" + str(add_record_j["message"]))
+                        error(
+                            "错误："
+                            + one_up_item.hostname
+                            + " 的 IPv6 地址添加记录失败，错误信息："
+                            + str(add_record_j["message"])
+                        )
+                else:
+                    warning(one_up_item.hostname + "没有 IPv6 地址记录需要更新、删除或添加")
     else:
         error("错误：更新项目为空")
         exit()
