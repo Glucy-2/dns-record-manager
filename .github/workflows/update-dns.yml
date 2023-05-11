@@ -13,13 +13,9 @@ on:
 
 jobs:
 
-  build:
+  update-dns:
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-      
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
     
@@ -40,4 +36,4 @@ jobs:
 
       # Run script
       - run: |
-          python multi-cname-dns.yml
+          python multi-cname-dns.py
