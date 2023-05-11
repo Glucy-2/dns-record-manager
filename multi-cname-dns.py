@@ -191,6 +191,9 @@ def run():
                         + " 设置的 IPv4 地址："
                         + str(one_up_item.ipv4_ips)
                     )
+                    ipv4_done = False
+                else:
+                    ipv4_done = True
                 if one_up_item.enable_ipv6:
                     info("正在查询 " + one_up_item.hostname + " 设置的 IPv6 地址……")
                     for cname in one_up_item.cname_records:
@@ -207,6 +210,9 @@ def run():
                         + " 设置的 IPv6 地址："
                         + str(one_up_item.ipv6_ips)
                     )
+                    ipv6_done = False
+                else:
+                    ipv6_done = True
 
                 # 切割域名，获取主域名和对应 Zone ID
                 for zone in zones:
@@ -257,8 +263,6 @@ def run():
                     recordsets.append(record_sets_j["recordsets"])
 
                 # 更新记录
-                ipv4_done = False
-                ipv6_done = False
                 for recordset in recordsets:
                     if recordset["name"] == domain:
                         if recordset["type"] == "A":
@@ -413,7 +417,7 @@ def run():
                             + " 的 IPv4 地址添加记录失败，错误信息："
                             + str(add_record_j["message"])
                         )
-                else:
+                elif not ipv4_done and not one_up_item.ipv4_ips:
                     warning(one_up_item.hostname + "没有 IPv4 地址记录需要更新、删除或添加")
                 if not ipv6_done and one_up_item.ipv6_ips:
                     info("正在添加 " + one_up_item.hostname + " 设置的 IPv6 地址……")
@@ -449,7 +453,7 @@ def run():
                             + " 的 IPv6 地址添加记录失败，错误信息："
                             + str(add_record_j["message"])
                         )
-                else:
+                elif not ipv6_done and not one_up_item.ipv6_ips:
                     warning(one_up_item.hostname + "没有 IPv6 地址记录需要更新、删除或添加")
     else:
         error("错误：更新项目为空")
