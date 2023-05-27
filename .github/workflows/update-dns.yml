@@ -38,7 +38,7 @@ jobs:
       # Run script
       - name: Update DNS
         run: |
-          python multi-cname-dns.py
+          python dns_record_manager.py
         env: # Set environment variables
           HW_API_KEY: ${{ secrets.HW_API_KEY }}
           HW_API_SECRET: ${{ secrets.HW_API_SECRET }}
