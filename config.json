@@ -1,39 +1,57 @@
 {
     "server_config": {
         "dns_query_server": "https://cloudflare-dns.com/dns-query",
+        "ua": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0",
         "hw_api": {
             "scheme": "https",
             "endpoint": "dns.myhuaweicloud.com",
             "ak": "QTWAOY********VKYUC",
             "sk": "MFyfvK41ba2giqM7**********KGpownRZlmVmHc"
-        }
+        },
+        "max_content_num": 50
     },
     "update_items": [
         {
-            "hostname": "skimit.net",
-            "enable_ipv4": true,
-            "enable_ipv6": true,
-            "cname_records": [
+            "enabled": true,
+            "domain": "skimit.net",
+            "type": "A",
+            "sources": [
                 "13651f0bb6f16c90.qaxwzws.com",
                 "skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com"
             ],
-            "ipv4_ips": [],
-            "ipv6_ips": [],
-            "description": "",
+            "extra": [],
+            "match_description": "",
+            "description": "奇安信，多吉云，又拍云",
             "ttl": 300
         },
         {
-            "hostname": "www.skimit.net",
-            "enable_ipv4": true,
-            "enable_ipv6": true,
-            "cname_records": [
+            "enabled": true,
+            "domain": [
+                "skimit.net",
+                "www.skimit.net"
+            ],
+            "type": "AAAA",
+            "sources": [
                 "skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com"
             ],
-            "ipv4_ips": [],
-            "ipv6_ips": [],
-            "description": "",
+            "extra": [],
+            "match_description": "",
+            "description": "多吉云，又拍云",
+            "ttl": 300
+        },
+        {
+            "enabled": true,
+            "domain": "www.skimit.net",
+            "type": "A",
+            "sources": [
+                "skimit.net.s2-web.dogedns.com",
+                "skimit-homepage.b0.aicdn.com"
+            ],
+            "extra": [],
+            "match_description": "",
+            "description": "多吉云，又拍云",
             "ttl": 300
         }
     ]
