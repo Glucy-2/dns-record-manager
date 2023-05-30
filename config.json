@@ -28,8 +28,7 @@
         {
             "enabled": true,
             "domain": [
-                "skimit.net",
-                "www.skimit.net"
+                "skimit.net"
             ],
             "type": "AAAA",
             "sources": [
@@ -43,8 +42,24 @@
         },
         {
             "enabled": true,
-            "domain": "www.skimit.net",
+            "domain": [
+                "www.skimit.net"
+            ],
             "type": "A",
+            "sources": [
+                "dfbfd15ad21b613a.qaxwzws.com",
+                "skimit.net.s2-web.dogedns.com",
+                "skimit-homepage.b0.aicdn.com"
+            ],
+            "extra": [],
+            "match_description": "",
+            "description": "奇安信，多吉云，又拍云",
+            "ttl": 300
+        },
+        {
+            "enabled": true,
+            "domain": "www.skimit.net",
+            "type": "AAAA",
             "sources": [
                 "skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com"
