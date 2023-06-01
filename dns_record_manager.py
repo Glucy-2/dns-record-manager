@@ -83,11 +83,11 @@ def read_config() -> list:
     for index, item in enumerate(up_items):
         if not item.get("enabled", True):
             continue
-        if not all(item.get(key) for key in ["domain", "type", "sources"]):
-            error(f"错误：第 {index} 个更新配置缺少必要的配置项")
+        if not all(item.get(key) for key in ["domain", "type"]):
+            error(f"错误：第 {index + 1} 个更新配置缺少必要的配置项")
             continue
         if item["type"] not in {"A", "AAAA", "MX", "TXT", "SRV", "NS", "CAA"}:
-            error(f'错误：不支持第 {index} 个更新配置的 {item["type"]} 记录类型')
+            error(f'错误：不支持第 {index + 1} 个更新配置的 {item["type"]} 记录类型')
             continue
         domains = (
             item["domain"] if isinstance(item["domain"], list) else [item["domain"]]
