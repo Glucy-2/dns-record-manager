@@ -405,6 +405,11 @@ def run():
                     len(up_item.content),
                 )
             )
+            if up_item.record_type == "CAA":
+                content = []
+                for record in up_item.content:
+                    content.append(f"\"{record}\"")
+                up_item.content = content
             recordset_list = get_recordset_list(zones, up_item)
             if recordset_list is None:
                 continue
@@ -421,6 +426,8 @@ def run():
             for recordset in recordsets:
                 debug(f"正在处理 {up_item.name} 的 {recordset['id']} 记录集……")
                 query_recordset_result = query_recordset(zone_id, recordset["id"])
+                if query_recordset_result["description"] is None:
+                    query_recordset_result["description"] = ""
                 if query_recordset_result["description"] == up_item.description and set(
                     query_recordset_result["records"]
                 ) == set(up_item.content):
@@ -433,7 +440,7 @@ def run():
                     continue
                 if up_item.match_description and not re.search(
                     up_item.match_description,
-                    str(query_recordset_result["description"]),
+                    (query_recordset_result["description"])
                 ):
                     info(
                         f"{up_item.name} 的 {query_recordset_result['id']} 记录集描述不匹配，将跳过"
