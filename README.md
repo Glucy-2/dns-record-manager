@@ -1,5 +1,5 @@
 #  dns-record-manager
-用于获取多个DNS的记录值合并，使用GitHub Action定时或本地运行通过华为云DNS的API更新 
+用于获取多个DNS的记录值合并，使用GitHub Action定时或本地运行通过华为云DNS的API更新  
 ![GitHub Workflow Status](https://github.com/Glucy-2/dns-record-manager/actions/workflows/update-dns.yml/badge.svg)
 ## 协议
 本项目使用 GPL v3 协议
@@ -20,16 +20,6 @@
     3. 安装依赖（`dnspython` `Requests` `requests-toolbelt`）
     4. [修改配置文件](#配置文件)
     5. 设置定时任务或手动执行
-## 流程图
-```mermaid
-graph TB
-    A[开始] --> B[获取域名列表]
-    B --> C[获取域名记录列表]
-    C --> D[获取域名记录值]
-    D --> E[合并记录值]
-    E --> F[更新域名记录]
-    F --> G[结束]
-```
 ## 注意事项
 - 使用本项目可能会导致服务商认为你没有将域名解析到其官方CNAME上
 - 使用本项目可能会导致CDN上基于文件验证的SSL（TLS）证书无法获取，你可以尝试设置CAA记录
