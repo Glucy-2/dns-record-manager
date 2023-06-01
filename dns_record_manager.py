@@ -20,8 +20,8 @@ __author__ = "Glucy2"
 
 
 class ServerCfg:
-    dns_query_server: str
-    ua: str
+    dns_query_server: str = "https://cloudflare-dns.com/dns-query"
+    ua: str = "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0"
     hw_api: dict = {
         "scheme": "https",
         "endpoint": "dns.myhuaweicloud.com",
@@ -35,13 +35,13 @@ class ServerCfg:
 
 class UpItem:
     def __init__(self):
-        self.name = ""
-        self.record_type = ""
-        self.sources = []
-        self.content = []
-        self.match_description = ""
-        self.description = ""
-        self.ttl = 300
+        self.name:str = ""
+        self.record_type: str = ""
+        self.sources: list[str] = []
+        self.content: list[str] = []
+        self.match_description: str = ""
+        self.description: str = ""
+        self.ttl: int = 300
 
 
 def read_config() -> list:
@@ -102,7 +102,21 @@ def read_config() -> list:
                 up_item.name = domain if domain.endswith(".") else domain + "."
                 up_item.record_type = record_type
                 up_item.sources = item["sources"]
-                up_item.content = item.get("extra", [])
+                if record_type == "CAA":
+                    content = []
+                    for record in item.get("extra", []):
+                        sp = record.split(" ")
+                        if len(sp) != 3:
+                            error(f"错误：第 {index + 1} 个更新配置的 {up_item.name} 的 extra 内容格式错误")
+                            skip = True
+                            break
+                        if sp[2].startswith("\"") and sp[2].endswith("\""):
+                            content.append(f"{sp[0]} {sp[1]} {sp[2]}")
+                        else:
+                            content.append(f"{sp[0]} {sp[1]} \"{sp[2]}\"")
+                    up_item.content = content
+                else:
+                    up_item.content = item.get("extra", [])
                 up_item.match_description = item.get("match_description", "")
                 up_item.description = item.get(
                     "description", "，".join(item["sources"])
@@ -110,7 +124,7 @@ def read_config() -> list:
                 up_item.ttl = item.get("ttl", 300)
                 if len(up_item.content) > ServerCfg.max_content_num:
                     error(
-                        f"错误：第 {index} 个更新配置的 {up_item.name} 的 {up_item.record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}"
+                        f"错误：第 {index + 1} 个更新配置的 {up_item.name} 的 {up_item.record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}"
                     )
                     skip = True
                     break
@@ -148,7 +162,17 @@ def query_record(
                 debug(f"查询到 {name} 的 CNAME 记录：{item.target.to_text()}")
                 return query_record(item.target.to_text(), record_type, lookup_session)
             elif item.rdtype == rdatatype:
-                content.append(item.address)
+                if record_type == "CAA":
+                    content.append(f"{item.flags} {item.tag.decode()} \"{item.value.decode()}\"")
+                elif record_type == "NS":
+                    content.append(str(item.target))
+                elif record_type == "MX":
+                    content.append(str(item.exchange))
+                elif record_type == "TXT":
+                    for string in item.strings:
+                        content.append(string.decode())
+                else:
+                    content.append(item.address)
             else:
                 error(f"未知或错误的记录：{item}")
     debug(f"查询到 {name} 的 {record_type} 记录：{content}")
@@ -348,7 +372,7 @@ def add_recordset(zone_id: str, up_item: UpItem) -> bool:
         ),
     )
     add_record_j = add_record_r.json()
-    if add_record_r.status_code == 200:
+    if add_record_r.status_code in {200, 202}:
         debug(
             f'{up_item.name} 的 {up_item.record_type} 记录集添加成功，记录集已添加为 {add_record_j["records"]}'
         )
@@ -405,11 +429,6 @@ def run():
                     len(up_item.content),
                 )
             )
-            if up_item.record_type == "CAA":
-                content = []
-                for record in up_item.content:
-                    content.append(f"\"{record}\"")
-                up_item.content = content
             recordset_list = get_recordset_list(zones, up_item)
             if recordset_list is None:
                 continue

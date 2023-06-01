@@ -10,8 +10,8 @@
     2. 开启项目的 Actions 功能
     3. 在项目 Settings -> Secrets and variables -> Actions 中添加环境变量
         - 在[这里](//console.huaweicloud.com/iam/#/mine/apiCredential)新增并下载华为云凭证访问密钥
-        - `HW_API_KEY`内容为访问密钥的Access Key Id
-        - `HW_API_SECRET`内容为访问密钥的Secret Access Key
+        - `HW_API_KEY`内容为访问密钥的 Access Key Id
+        - `HW_API_SECRET`内容为访问密钥的 Secret Access Key
     4. [修改配置文件](#配置文件)
     5. 默认每个半点执行一次、代码变动执行一次，如有需要可自行修改项目中的 `.github/workflows/update-dns.yml`
 ### 本地运行
@@ -91,7 +91,8 @@
     ]
 }
 ```
-## TODO
+## TODO（画饼）
+- 直接使用huaweicloudsdkdns包
 - 异步
 - 解析线路设置与匹配
 - Tag 设置与匹配
