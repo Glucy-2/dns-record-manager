@@ -32,20 +32,6 @@
         {
             "enabled": true,
             "domain": "skimit.net",
-            "type": "CAA",
-            "sources": [],
-            "extra": [
-                "0 issue digicert.com",
-                "0 issue letsencrypt.org",
-                "0 issuewild digicert.com"
-            ],
-            "match_description": "",
-            "description": "GitHub Pages 启用 HTTPS",
-            "ttl": 300
-        },
-        {
-            "enabled": true,
-            "domain": "skimit.net",
             "type": "A",
             "sources": [
                 "13651f0bb6f16c90.qaxwzws.com",
