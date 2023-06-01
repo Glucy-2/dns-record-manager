@@ -104,10 +104,14 @@ def read_config() -> list:
                 up_item.sources = item["sources"]
                 up_item.content = item.get("extra", [])
                 up_item.match_description = item.get("match_description", "")
-                up_item.description = item.get("description", "，".join(item["sources"]))[:255]
+                up_item.description = item.get(
+                    "description", "，".join(item["sources"])
+                )[:255]
                 up_item.ttl = item.get("ttl", 300)
                 if len(up_item.content) > ServerCfg.max_content_num:
-                    error(f"错误：第 {index} 个更新配置的 {up_item.name} 的 {up_item.record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}")
+                    error(
+                        f"错误：第 {index} 个更新配置的 {up_item.name} 的 {up_item.record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}"
+                    )
                     skip = True
                     break
                 up_item_list.append(up_item)
@@ -184,7 +188,9 @@ def query_records(
     debug(f"{domain} 查询到的记录：{contents}")
     total_num = sum(len(content) for content in contents)
     if total_num + extra_num > ServerCfg.max_content_num:
-        warning(f"{domain} 的记录数 {total_num + extra_num} 超过了设置的最大记录数 {ServerCfg.max_content_num}")
+        warning(
+            f"{domain} 的记录数 {total_num + extra_num} 超过了设置的最大记录数 {ServerCfg.max_content_num}"
+        )
         if record_type in {"A", "AAAA"}:
             record_by_asn = defaultdict(list)
             for content in contents:
@@ -242,11 +248,8 @@ def get_zones() -> list:
     while "next" in zone_list_j["links"]:
         zone_list_r = hwapi_requester("GET", zone_list_j["links"]["next"])
         zones.extend(zone_list_j["zones"])
-    zone_msg = "，".join(
-        f'{zone["name"]}：{zone["id"]}' 
-        for zone 
-        in zones)
-    debug(f'查询到 {len(zones)} 个 Zone：{zone_msg}')
+    zone_msg = "，".join(f'{zone["name"]}：{zone["id"]}' for zone in zones)
+    debug(f"查询到 {len(zones)} 个 Zone：{zone_msg}")
     return zones
 
 
@@ -324,7 +327,9 @@ def query_recordset(zone_id: str, recordset_id: str) -> dict:
         debug(f"查询 Zone {zone_id} 中的 {recordset_id} 的记录集成功：{query_record_j}")
         return query_record_j
     else:
-        error(f"查询 Zone {zone_id} 中的 {recordset_id} 的记录集失败，错误信息：{query_record_j['message']}")
+        error(
+            f"查询 Zone {zone_id} 中的 {recordset_id} 的记录集失败，错误信息：{query_record_j['message']}"
+        )
         return {}
 
 
@@ -355,9 +360,7 @@ def add_recordset(zone_id: str, up_item: UpItem) -> bool:
         return False
 
 
-def set_recordset_status(
-    recordset_id: str, status: str = "DISABLE"
-) -> bool:
+def set_recordset_status(recordset_id: str, status: str = "DISABLE") -> bool:
     if status not in {"DISABLE", "ENABLE"}:
         error(f"错误：无效记录集的状态：{status}")
         return False
@@ -393,12 +396,14 @@ def run():
         for up_item in up_item_list:
             # 查询 源记录 中的 值
             info(f"正在查询 {up_item.name} 设置的 {up_item.record_type} 记录……")
-            up_item.content = query_records(
-                up_item.sources,
-                up_item.record_type,
-                lookup_session,
-                up_item.name,
-                len(up_item.content)
+            up_item.content.extend(
+                query_records(
+                    up_item.sources,
+                    up_item.record_type,
+                    lookup_session,
+                    up_item.name,
+                    len(up_item.content),
+                )
             )
             recordset_list = get_recordset_list(zones, up_item)
             if recordset_list is None:
@@ -416,7 +421,9 @@ def run():
             for recordset in recordsets:
                 debug(f"正在处理 {up_item.name} 的 {recordset['id']} 记录集……")
                 query_recordset_result = query_recordset(zone_id, recordset["id"])
-                if query_recordset_result["description"] == up_item.description and set(query_recordset_result["records"]) == set(up_item.content):
+                if query_recordset_result["description"] == up_item.description and set(
+                    query_recordset_result["records"]
+                ) == set(up_item.content):
                     info(f"{up_item.name} 的 {query_recordset_result['id']} 记录集没有变化，将跳过")
                     continue
                 if query_recordset_result["status"] != "ACTIVE":
@@ -425,7 +432,8 @@ def run():
                     )
                     continue
                 if up_item.match_description and not re.search(
-                    up_item.match_description, str(query_recordset_result["description"])
+                    up_item.match_description,
+                    str(query_recordset_result["description"]),
                 ):
                     info(
                         f"{up_item.name} 的 {query_recordset_result['id']} 记录集描述不匹配，将跳过"
