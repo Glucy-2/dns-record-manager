@@ -13,6 +13,24 @@
     "update_items": [
         {
             "enabled": true,
+            "domain": "_minecraft._tcp.play.skimit.net",
+            "type": "SRV",
+            "sources": [],
+            "extra": [
+                "20 100 25565 4.cn-zj-2022-11-12-00.skimit.net.",
+                "40 100 25565 4.cn-sd-2022-07-27-00.skimit.net.",
+                "40 100 25565 6.cn-sd-2022-07-27-00.skimit.net.",
+                "30 10 31919 4.cn-sd-2022-03-20-00.skimit.net.",
+                "20 100 25565 4.cn-sd-2023-03-12-00.skimit.net.",
+                "10 100 25565 4.cn-sd-2022-07-05-00.skimit.net.",
+                "10 100 25565 6.cn-sd-2023-03-12-00.skimit.net."
+            ],
+            "match_description": "",
+            "description": "",
+            "ttl": 300
+        },
+        {
+            "enabled": true,
             "domain": "skimit.net",
             "type": "CAA",
             "sources": [],
