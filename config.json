@@ -34,13 +34,13 @@
             "domain": "skimit.net",
             "type": "A",
             "sources": [
-                "13651f0bb6f16c90.qaxwzws.com",
                 "skimit.net.s2-web.dogedns.com",
-                "skimit-homepage.b0.aicdn.com"
+                "skimit-homepage.b0.aicdn.com",
+                "http3.aicdn.com"
             ],
             "extra": [],
             "match_description": "",
-            "description": "奇安信，多吉云，又拍云",
+            "description": "多吉云，又拍云",
             "ttl": 300
         },
         {
@@ -65,13 +65,13 @@
             ],
             "type": "A",
             "sources": [
-                "dfbfd15ad21b613a.qaxwzws.com",
                 "skimit.net.s2-web.dogedns.com",
-                "skimit-homepage.b0.aicdn.com"
+                "skimit-homepage.b0.aicdn.com",
+                "http3.aicdn.com"
             ],
             "extra": [],
             "match_description": "",
-            "description": "奇安信，多吉云，又拍云",
+            "description": "多吉云，又拍云",
             "ttl": 300
         },
         {
