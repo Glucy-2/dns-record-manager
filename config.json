@@ -32,26 +32,14 @@
         {
             "enabled": true,
             "domain": "skimit.net",
-            "type": "A",
+            "type": [
+                "A",
+                "AAAA"
+            ],
             "sources": [
                 "skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com",
                 "http3.aicdn.com"
-            ],
-            "extra": [],
-            "match_description": "",
-            "description": "多吉云，又拍云",
-            "ttl": 300
-        },
-        {
-            "enabled": true,
-            "domain": [
-                "skimit.net"
-            ],
-            "type": "AAAA",
-            "sources": [
-                "skimit.net.s2-web.dogedns.com",
-                "skimit-homepage.b0.aicdn.com"
             ],
             "extra": [],
             "match_description": "",
@@ -63,7 +51,10 @@
             "domain": [
                 "www.skimit.net"
             ],
-            "type": "A",
+            "type": [
+                "A",
+                "AAAA"
+            ],
             "sources": [
                 "skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com",
@@ -76,11 +67,54 @@
         },
         {
             "enabled": true,
-            "domain": "www.skimit.net",
-            "type": "AAAA",
+            "domain": "survey.skimit.net",
+            "type": [
+                "A",
+                "AAAA"
+            ],
             "sources": [
-                "skimit.net.s2-web.dogedns.com",
-                "skimit-homepage.b0.aicdn.com"
+                "survey.skimit.net.s2-web.dogedns.com",
+                "skimit-survey.b0.aicdn.com",
+                "http3.aicdn.com",
+                "cl-gl9a3d64e9.gcdn.co"
+            ],
+            "extra": [],
+            "match_description": "",
+            "description": "多吉云，又拍云，GCore",
+            "ttl": 300
+        },
+        {
+            "enabled": true,
+            "domain": [
+                "bluemap.skimit.net"
+            ],
+            "type": [
+                "A",
+                "AAAA"
+            ],
+            "sources": [
+                "bluemap.skimit.net.s2-web.dogedns.com",
+                "skimit-bluemap.b0.aicdn.com",
+                "http3.aicdn.com"
+            ],
+            "extra": [],
+            "match_description": "",
+            "description": "多吉云，又拍云",
+            "ttl": 300
+        },
+        {
+            "enabled": true,
+            "domain": [
+                "plan.skimit.net"
+            ],
+            "type": [
+                "A",
+                "AAAA"
+            ],
+            "sources": [
+                "plan.skimit.net.s2-web.dogedns.com",
+                "skimit-plan.b0.aicdn.com",
+                "http3.aicdn.com"
             ],
             "extra": [],
             "match_description": "",

@@ -92,6 +92,7 @@
 }
 ```
 ## TODO（画饼）
+- 使用多个客户端IP查询DNS
 - 直接使用huaweicloudsdkdns包
 - 异步
 - 解析线路设置与匹配
