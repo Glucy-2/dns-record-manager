@@ -35,14 +35,23 @@ class ServerCfg:
 
 
 class UpItem:
-    def __init__(self):
-        self.name:str = ""
-        self.record_type: str = ""
-        self.sources: list[str] = []
-        self.content: list[str] = []
-        self.match_description: str = ""
-        self.description: str = ""
-        self.ttl: int = 300
+    def __init__(
+        self,
+        name: str,
+        record_type: str,
+        sources: list[str],
+        content: list[str],
+        match_description: str,
+        description: str,
+        ttl: int,
+    ):
+        self.name: str = name
+        self.record_type: str = record_type
+        self.sources: list[str] = sources
+        self.content: list[str] = content
+        self.match_description: str = match_description
+        self.description: str = description
+        self.ttl: int = ttl
 
 
 def read_config() -> list:
@@ -100,39 +109,41 @@ def read_config() -> list:
         skip = False
         for domain in domains:
             for record_type in record_types:
-                up_item = UpItem()
-                up_item.name = domain if domain.endswith(".") else domain + "."
-                up_item.record_type = record_type
-                up_item.sources = item["sources"]
+                name = domain if domain.endswith(".") else domain + "."
                 if record_type == "CAA":
                     content = []
                     for record in item.get("extra", []):
                         sp = record.split(" ")
                         if len(sp) != 3:
-                            error(f"错误：第 {index + 1} 个更新配置的 {up_item.name} 的 extra 内容格式错误")
+                            error(f"错误：第 {index + 1} 个更新配置的 {name} 的 extra 内容格式错误")
                             skip = True
                             break
-                        if sp[2].startswith("\"") and sp[2].endswith("\""):
+                        if sp[2].startswith('"') and sp[2].endswith('"'):
                             content.append(f"{sp[0]} {sp[1]} {sp[2]}")
                         else:
-                            content.append(f"{sp[0]} {sp[1]} \"{sp[2]}\"")
-                    up_item.content = content
+                            content.append(f'{sp[0]} {sp[1]} "{sp[2]}"')
+                    content.extend(content)
                 else:
-                    up_item.content = item.get("extra", [])
-                up_item.match_description = item.get("match_description", "")
-                up_item.description = item.get(
-                    "description", "，".join(item["sources"])
-                )[:255]
-                up_item.ttl = item.get("ttl", 300)
-                if len(up_item.content) > ServerCfg.max_content_num:
+                    content = item.get("extra", []).copy()
+                if len(content) > ServerCfg.max_content_num:
                     ServerCfg.error_occurred = True
                     error(
-                        f"错误：第 {index + 1} 个更新配置的 {up_item.name} 的 {up_item.record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}"
+                        f"错误：第 {index + 1} 个更新配置的 {name} 的 {record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}"
                     )
                     skip = True
                     break
+                up_item = UpItem(
+                    name,
+                    record_type,
+                    item["sources"],
+                    content,
+                    item.get("match_description", ""),
+                    item.get("description", "，".join(item["sources"]))[:255],
+                    item.get("ttl", 300),
+                )
                 up_item_list.append(up_item)
-                debug(f"读取到更新项目：{up_item.__dict__}")
+                debug(f"读取到更新项目：{name} {record_type}")
+                debug(id(content))
             if skip:
                 break
     if up_item_list:
@@ -167,7 +178,9 @@ def query_record(
                 return query_record(item.target.to_text(), record_type, lookup_session)
             elif item.rdtype == rdatatype:
                 if record_type == "CAA":
-                    content.append(f"{item.flags} {item.tag.decode()} \"{item.value.decode()}\"")
+                    content.append(
+                        f'{item.flags} {item.tag.decode()} "{item.value.decode()}"'
+                    )
                 elif record_type == "NS":
                     content.append(str(item.target))
                 elif record_type == "MX":
@@ -468,8 +481,7 @@ def run():
                     )
                     continue
                 if up_item.match_description and not re.search(
-                    up_item.match_description,
-                    (query_recordset_result["description"])
+                    up_item.match_description, (query_recordset_result["description"])
                 ):
                     info(
                         f"{up_item.name} 的 {query_recordset_result['id']} 记录集描述不匹配，将跳过"
