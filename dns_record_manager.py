@@ -20,6 +20,7 @@ __author__ = "Glucy2"
 
 
 class ServerCfg:
+    error_occurred: bool = False
     dns_query_server: str = "https://cloudflare-dns.com/dns-query"
     ua: str = "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0"
     hw_api: dict = {
@@ -124,6 +125,7 @@ def read_config() -> list:
                 )[:255]
                 up_item.ttl = item.get("ttl", 300)
                 if len(up_item.content) > ServerCfg.max_content_num:
+                    ServerCfg.error_occurred = True
                     error(
                         f"错误：第 {index + 1} 个更新配置的 {up_item.name} 的 {up_item.record_type} 设置的额外记录内容数量超过上限 {ServerCfg.max_content_num}"
                     )
@@ -155,6 +157,7 @@ def query_record(
     try:
         rdatatype = dns.rdatatype.from_text(record_type)
     except dns.rdatatype.UnknownRdatatype:
+        ServerCfg.error_occurred = True
         error(f"未知或错误的记录类型：{record_type}")
         return content
     for rr in r.answer:
@@ -185,10 +188,8 @@ def get_asn(ip: str, s: requests.sessions.Session, wait: bool = True) -> int:
     if r.status_code == 200:
         try:
             return r.json()["asn"]
-        except requests.JSONDecodeError as e:
-            error(f"获取 {ip} 的 ASN 失败：{e}")
-            return 0
-        except KeyError as e:
+        except (requests.JSONDecodeError, KeyError) as e:
+            ServerCfg.error_occurred = True
             error(f"获取 {ip} 的 ASN 失败：{e}")
             return 0
     elif r.status_code == 429 and wait:
@@ -196,6 +197,7 @@ def get_asn(ip: str, s: requests.sessions.Session, wait: bool = True) -> int:
         time.sleep(60)
         return get_asn(ip, s, True)
     else:
+        ServerCfg.error_occurred = True
         error(f"获取 {ip} 的 ASN 失败：{r.status_code} {r.text}")
         return 0
 
@@ -210,7 +212,7 @@ def query_records(
     contents = []
     for name in names:
         contents.append(query_record(name, record_type, session))
-    debug(f"{domain} 查询到的记录：{contents}")
+    debug(f"{domain} 查询到的 {record_type} 记录：{contents}")
     total_num = sum(len(content) for content in contents)
     if total_num + extra_num > ServerCfg.max_content_num:
         warning(
@@ -287,6 +289,7 @@ def get_recordset_list(zones: list, up_item: UpItem) -> tuple[str, dict] | None:
             info(f"找到了 {up_item.name} 对应的主域名：{zone_name}，对应的 Zone ID：{zone_id}")
             break
     else:
+        ServerCfg.error_occurred = True
         error(f"错误：未找到 {up_item.name} 对应的主域名，请检查配置文件中的 domain 的主域名是否已添加到华为云 DNS 的公网域名")
         return None
 
@@ -298,6 +301,7 @@ def get_recordset_list(zones: list, up_item: UpItem) -> tuple[str, dict] | None:
     )
     record_sets_j = record_sets_r.json()
     if record_sets_r.status_code != 200:
+        ServerCfg.error_occurred = True
         error(f'错误：查询记录列表失败，错误信息：{record_sets_j["message"]}')
         return None
     recordsets: list = record_sets_j["recordsets"]
@@ -335,6 +339,7 @@ def update_recordset(zone_id: str, recordset: dict, up_item: UpItem) -> bool:
         )
         return True
     else:
+        ServerCfg.error_occurred = True
         error(
             f"错误：{up_item.name} 的 {up_item.record_type} 记录更新失败，错误信息：{update_record_j['message']}"
         )
@@ -352,6 +357,7 @@ def query_recordset(zone_id: str, recordset_id: str) -> dict:
         debug(f"查询 Zone {zone_id} 中的 {recordset_id} 的记录集成功：{query_record_j}")
         return query_record_j
     else:
+        ServerCfg.error_occurred = True
         error(
             f"查询 Zone {zone_id} 中的 {recordset_id} 的记录集失败，错误信息：{query_record_j['message']}"
         )
@@ -379,6 +385,7 @@ def add_recordset(zone_id: str, up_item: UpItem) -> bool:
         )
         return True
     else:
+        ServerCfg.error_occurred = True
         error(
             f"错误：{up_item.name} 的 {up_item.record_type} 记录集添加失败，错误信息：{add_record_j['message']}"
         )
@@ -387,6 +394,7 @@ def add_recordset(zone_id: str, up_item: UpItem) -> bool:
 
 def set_recordset_status(recordset_id: str, status: str = "DISABLE") -> bool:
     if status not in {"DISABLE", "ENABLE"}:
+        ServerCfg.error_occurred = True
         error(f"错误：无效记录集的状态：{status}")
         return False
     set_status_r = hwapi_requester(
@@ -399,6 +407,7 @@ def set_recordset_status(recordset_id: str, status: str = "DISABLE") -> bool:
         debug(f"记录集 {recordset_id} 的状态成功更改为 {set_status_j['status']}")
         return True
     else:
+        ServerCfg.error_occurred = True
         error(f"错误：记录集 {recordset_id} 的状态更改失败，错误信息：{set_status_j['message']}")
         return False
 
@@ -472,7 +481,8 @@ def run():
                 else:
                     info(f"{up_item.name} 要设置的 {up_item.record_type} 记录集为空，将禁用现有记录集……")
                     set_recordset_status(recordset["id"], "DISABLE")
-
+    if ServerCfg.error_occurred:
+        sys.exit(2)
 
 if __name__ == "__main__":
     run()
