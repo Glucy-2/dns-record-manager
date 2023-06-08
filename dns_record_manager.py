@@ -86,15 +86,16 @@ def read_config() -> list:
         if not all(item.get(key) for key in ["domain", "type"]):
             error(f"错误：第 {index + 1} 个更新配置缺少必要的配置项")
             continue
-        if item["type"] not in {"A", "AAAA", "MX", "TXT", "SRV", "NS", "CAA"}:
-            error(f'错误：不支持第 {index + 1} 个更新配置的 {item["type"]} 记录类型')
-            continue
         domains = (
             item["domain"] if isinstance(item["domain"], list) else [item["domain"]]
         )
         record_types = (
             item["type"] if isinstance(item["type"], list) else [item["type"]]
         )
+        for record_type in record_types:
+            if record_type not in {"A", "AAAA", "MX", "TXT", "SRV", "NS", "CAA"}:
+                error(f'错误：不支持第 {index + 1} 个更新配置的 {item["type"]} 记录类型')
+                continue
         skip = False
         for domain in domains:
             for record_type in record_types:
