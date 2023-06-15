@@ -13,7 +13,10 @@
     "update_items": [
         {
             "enabled": true,
-            "domain": "_minecraft._tcp.play.skimit.net",
+            "domain": [
+                "_minecraft._tcp.play.skimit.net",
+                "_minecraft._tcp.skimit.net"
+            ],
             "type": "SRV",
             "sources": [],
             "extra": [
