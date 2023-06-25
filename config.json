@@ -36,11 +36,12 @@
             "sources": [
                 "skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com",
-                "http3.aicdn.com"
+                "http3.aicdn.com",
+                "cl-gl9a3d64e9.gcdn.co"
             ],
             "extra": [],
             "match_description": "",
-            "description": "多吉云，又拍云",
+            "description": "多吉云，又拍云，GCore",
             "ttl": 300
         },
         {
@@ -55,11 +56,12 @@
             "sources": [
                 "www.skimit.net.s2-web.dogedns.com",
                 "skimit-homepage.b0.aicdn.com",
-                "http3.aicdn.com"
+                "http3.aicdn.com",
+                "cl-gl9a3d64e9.gcdn.co"
             ],
             "extra": [],
             "match_description": "",
-            "description": "多吉云，又拍云",
+            "description": "多吉云，又拍云，GCore",
             "ttl": 300
         },
         {
