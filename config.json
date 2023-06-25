@@ -20,13 +20,7 @@
             "type": "SRV",
             "sources": [],
             "extra": [
-                "10 50 25565 4.cn-sd-2022-09-14-00.skimit.net.",
-                "20 3 25565 4.cn-sh-2021-07-09-00.skimit.net.",
-                "20 8 25565 6.cn-sh-2021-07-09-00.skimit.net.",
-                "20 120 25565 cn-zj-2022-11-12-00.skimit.net.",
-                "20 15 35565 cn-sd-2022-11-12-00.skimit.net.",
-                "20 10 31919 cn-sd-2022-03-20-00.skimit.net.",
-                "20 10 20229 cn-js-2022-10-17-00.skimit.net."
+                "10 50 25565 4.cn-sd-2022-09-14-00.skimit.net."
             ],
             "match_description": "",
             "description": "",
@@ -117,11 +111,12 @@
             "sources": [
                 "plan.skimit.net.s2-web.dogedns.com",
                 "skimit-plan.b0.aicdn.com",
-                "http3.aicdn.com"
+                "http3.aicdn.com",
+                "cl-gl9a3d64e9.gcdn.co"
             ],
             "extra": [],
             "match_description": "",
-            "description": "多吉云，又拍云",
+            "description": "多吉云，又拍云，GCore",
             "ttl": 300
         }
     ]
