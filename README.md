@@ -1,6 +1,6 @@
 #  dns-record-manager
 用于获取多个DNS的记录值合并，使用GitHub Action定时或本地运行通过华为云DNS的API更新  
-![GitHub Workflow Status](https://github.com/Glucy-2/dns-record-manager/actions/workflows/update-dns.yml/badge.svg)
+![GitHub Workflow Status](https://github.com/skimitmc/dns-record-manager/actions/workflows/update-dns.yml/badge.svg)
 ## 协议
 本项目使用 GPL v3 协议
 ## 使用方法
