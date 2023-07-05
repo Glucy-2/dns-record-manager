@@ -16,12 +16,15 @@
             "domain": [
                 "no-srv.play.skimit.net"
             ],
-            "type": ["A", "AAAA"],
-            "sources": [],
-            "extra": [
+            "type": [
+                "A",
+                "AAAA"
+            ],
+            "sources": [
                 "cn-zj-2022-11-12-00.skimit.net",
                 "cn-sh-2021-07-09-00.skimit.net"
             ],
+            "extra": [],
             "match_description": "",
             "description": "",
             "ttl": 300
