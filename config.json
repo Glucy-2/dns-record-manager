@@ -14,6 +14,21 @@
         {
             "enabled": true,
             "domain": [
+                "no-srv.play.skimit.net"
+            ],
+            "type": ["A", "AAAA"],
+            "sources": [],
+            "extra": [
+                "cn-zj-2022-11-12-00.skimit.net",
+                "cn-sh-2021-07-09-00.skimit.net"
+            ],
+            "match_description": "",
+            "description": "",
+            "ttl": 300
+        },
+        {
+            "enabled": true,
+            "domain": [
                 "_minecraft._tcp.play.skimit.net",
                 "_minecraft._tcp.skimit.net"
             ],
