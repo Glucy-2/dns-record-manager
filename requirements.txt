@@ -1,3 +1,4 @@
 dnspython
 Requests
 requests-toolbelt
+httpx
