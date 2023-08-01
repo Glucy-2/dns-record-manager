@@ -586,7 +586,7 @@ async def run():
                     DnsClient.new_builder()
                     .with_credentials(ServerCfg.credentials)
                     .with_region(region)
-                    .with_stream_log(log_level)
+                    # .with_stream_log(log_level)
                     .build()
                 )
             break
