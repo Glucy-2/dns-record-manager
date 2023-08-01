@@ -647,6 +647,9 @@ async def run():
             else:
                 info(f"{up_item.name} 要设置的 {up_item.record_type} 记录集为空，将禁用现有记录集……")
                 set_recordset_status(hwdns_client, recordset.id, "DISABLE")
+    if session:
+        await session.close()
+        info("已关闭会话")
     if ServerCfg.error_occurred:
         sys.exit(2)
 
