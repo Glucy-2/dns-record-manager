@@ -249,20 +249,19 @@ async def fetch_url2time(
         return
 
 
-async def select_region(session: aiohttp.ClientSession) -> Region:
+async def select_region(session: aiohttp.ClientSession) -> list:
     """
     选择延迟最低的 API 服务器
     """
     regions = {}
     info("正在选择响应时间最短的 API 服务器……")
-    # TODO: 优化：第一个请求响应后直接返回
     await asyncio.gather(
         *[
             fetch_url2time(session, name, region.endpoints[0], regions)
             for name, region in dns_region.DnsRegion.static_fields.items()
         ]
     )
-    return dns_region.DnsRegion.static_fields[min(regions, key=regions.get)]
+    return sorted(regions, key=regions.get)
 
 
 async def download_ip_lists(session: aiohttp.ClientSession):
@@ -568,25 +567,30 @@ async def run():
     up_item_list: list[UpItem] = await read_config()
     setup_credentials()
     session: aiohttp.ClientSession = aiohttp.ClientSession()
-    region = await select_region(session)
-    # 创建服务客户端
-    if log_level is logging.DEBUG:
-        hwdns_client = (
-            DnsClient.new_builder()
-            .with_credentials(ServerCfg.credentials)
-            .with_region(region)
-            .with_stream_log(log_level)
-            .with_http_handler(HttpHandler().add_response_handler(response_handler))
-            .build()
-        )
-    else:
-        hwdns_client = (
-            DnsClient.new_builder()
-            .with_credentials(ServerCfg.credentials)
-            .with_region(region)
-            .with_stream_log(log_level)
-            .build()
-        )
+    regions: list = await select_region(session)
+    for region in regions:
+        # 创建服务客户端
+        try:
+            if log_level is logging.DEBUG:
+                hwdns_client = (
+                    DnsClient.new_builder()
+                    .with_credentials(ServerCfg.credentials)
+                    .with_region(region)
+                    .with_stream_log(log_level)
+                    .with_http_handler(HttpHandler().add_response_handler(response_handler))
+                    .build()
+                )
+            else:
+                hwdns_client = (
+                    DnsClient.new_builder()
+                    .with_credentials(ServerCfg.credentials)
+                    .with_region(region)
+                    .with_stream_log(log_level)
+                    .build()
+                )
+            break
+        except ApiValueError:
+            continue
     zones = get_zones(hwdns_client)
     for up_item in up_item_list:
         # 查询 源记录 中的 值
