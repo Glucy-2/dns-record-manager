@@ -343,9 +343,12 @@ async def lookup_record(
         )
         if response.status == 200:
             response_json = await response.json(content_type=None)
-            for answer in response_json["Answer"]:
-                if answer["type"] == dns_types[record_type]:
-                    content.append(answer["data"])
+            try:
+                for answer in response_json["Answer"]:
+                    if answer["type"] == dns_types[record_type]:
+                        content.append(answer["data"])
+            except KeyError:
+                warning(f"{name} 没有 {record_type} 记录")
         else:
             warning(
                 f"查询 {name} {record_type} 记录时出错：{response.status}: {response.content}"
