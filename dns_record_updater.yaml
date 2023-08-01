@@ -3,22 +3,22 @@ server_config:
   hw_api_ak: QTWAOY********VKYUC
   hw_api_sk: MFyfvK41ba2giqM7**********KGpownRZlmVmHc
   max_content_num: 50
-  ip_lists_urls: |
-      https://github.com/gaoyifan/china-operator-ip/archive/refs/heads/ip-lists.zip
-      https://ghproxy.com/https://github.com/gaoyifan/china-operator-ip/archive/refs/heads/ip-lists.zip
+  ip_lists_urls:
+    - https://github.com/gaoyifan/china-operator-ip/archive/refs/heads/ip-lists.zip
+    - https://ghproxy.com/https://github.com/gaoyifan/china-operator-ip/archive/refs/heads/ip-lists.zip
   ip_lists_filepath: ./ip-lists.zip
 update_items: 
   - enabled: true
     domain: no-srv.play.skimit.net
     type: [A, AAAA]
     sources:
-      - cn-sh-2021-07-09-00.skimit.net
-      - cn-hk-2021-08-03-00.skimit.net
-      - cn-hk-2023-06-07-00.skimit.net
-      - jp-13-2023-06-22-00.skimit.net
-      - tw-tpe-2023-07-01-00.skimit.net
-      - us-ca-2022-11-18-00.skimit.net
-      - us-ca-2023-06-30-00.skimit.net
+      - cn-sh-2021-07-09-00.skimit.net # shq
+      - cn-hk-2021-08-03-00.skimit.net # hkt
+      - cn-hk-2023-06-07-00.skimit.net # hkd
+      - jp-13-2023-06-22-00.skimit.net # tyd
+      - tw-tpe-2023-07-01-00.skimit.net # tpu
+      - us-ca-2022-11-18-00.skimit.net # lam
+      - us-ca-2023-06-30-00.skimit.net # lav
     extra:
     match_description:
     description:
@@ -31,12 +31,10 @@ update_items:
     type: SRV
     sources:
     extra:
-      - 10 10 25457 4.cn-sd-2022-03-20-00.skimit.net.
-      - 15 10 25565 4.cn-zj-2022-11-12-00.skimit.net.
-      - 15 10 35565 4.cn-js-2023-07-01-00.skimit.net.
-      - 20 8 30887 4.cn-js-2022-10-17-00.skimit.net.
-      - 30 11 35565 4.cn-sd-2023-06-19-00.skimit.net.
-      - 30 10 30887 4.cn-js-2022-10-17-00.skimit.net.
+      - 10 10 35565 4.cn-js-2023-07-01-00.skimit.net. # sqm（宿迁多线，喵云）
+      - 10 11 35565 4.cn-sd-2023-06-19-00.skimit.net. # jnm（济宁移动，无忧云）
+      - 15 10 25457 4.cn-sd-2022-03-20-00.skimit.net. # zzs（枣庄多线，樱花frp枣庄多线2）
+      - 15 8 30887 4.cn-js-2022-10-17-00.skimit.net. # sqq（宿迁电信，七星云）
     match_description:
     description:
     ttl: 300
