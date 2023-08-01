@@ -569,6 +569,7 @@ async def run():
     session: aiohttp.ClientSession = aiohttp.ClientSession()
     regions: list = await select_region(session)
     for region in regions:
+        region = dns_region.DnsRegion.static_fields[region]
         # 创建服务客户端
         try:
             if log_level is logging.DEBUG:
