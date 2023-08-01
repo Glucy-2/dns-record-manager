@@ -256,13 +256,12 @@ async def select_region(session: aiohttp.ClientSession) -> Region:
     regions = {}
     info("正在选择响应时间最短的 API 服务器……")
     # TODO: 优化：第一个请求响应后直接返回
-    async with aiohttp.ClientSession() as session:
-        await asyncio.gather(
-            *[
-                fetch_url2time(session, name, region.endpoints[0], regions)
-                for name, region in dns_region.DnsRegion.static_fields.items()
-            ]
-        )
+    await asyncio.gather(
+        *[
+            fetch_url2time(session, name, region.endpoints[0], regions)
+            for name, region in dns_region.DnsRegion.static_fields.items()
+        ]
+    )
     return dns_region.DnsRegion.static_fields[min(regions, key=regions.get)]
 
 
