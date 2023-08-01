@@ -83,7 +83,7 @@ update_items:
       - bluemap.skimit.net.s2-web.dogedns.com
       - skimit-bluemap.b0.aicdn.com
       - http3.aicdn.com
-      - cl-gl9a3d64e9.gcdn.co
+      # - cl-gl9a3d64e9.gcdn.co
     extra:
     match_description:
     description: 多吉云，又拍云，GCore
@@ -94,8 +94,10 @@ update_items:
     type: [A, AAAA]
     sources:
       - plan.skimit.net.s2-web.dogedns.com
-      - cl-gl9a3d64e9.gcdn.co
+      - skimit-plan.b0.aicdn.com
+      - http3.aicdn.com
+      # - cl-gl9a3d64e9.gcdn.co
     extra:
     match_description:
-    description: 多吉云，GCore
+    description: 多吉云，又拍云，GCore
     ttl: 300
