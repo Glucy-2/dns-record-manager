@@ -1,4 +1,4 @@
-dnspython
-Requests
-requests-toolbelt
-httpx
+aiohttp
+huaweicloudsdkcore
+huaweicloudsdkdns
+PyYAML

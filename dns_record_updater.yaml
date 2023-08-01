@@ -1,0 +1,103 @@
+server_config:
+  dns_query_server: https://cloudflare-dns.com/dns-query
+  hw_api_ak: QTWAOY********VKYUC
+  hw_api_sk: MFyfvK41ba2giqM7**********KGpownRZlmVmHc
+  max_content_num: 50
+  ip_lists_urls: |
+      https://github.com/gaoyifan/china-operator-ip/archive/refs/heads/ip-lists.zip
+      https://ghproxy.com/https://github.com/gaoyifan/china-operator-ip/archive/refs/heads/ip-lists.zip
+  ip_lists_filepath: ./ip-lists.zip
+update_items: 
+  - enabled: true
+    domain: no-srv.play.skimit.net
+    type: [A, AAAA]
+    sources:
+      - cn-sh-2021-07-09-00.skimit.net
+      - cn-hk-2021-08-03-00.skimit.net
+      - cn-hk-2023-06-07-00.skimit.net
+      - jp-13-2023-06-22-00.skimit.net
+      - tw-tpe-2023-07-01-00.skimit.net
+      - us-ca-2022-11-18-00.skimit.net
+      - us-ca-2023-06-30-00.skimit.net
+    extra:
+    match_description:
+    description:
+    ttl: 300
+
+  - enabled: true
+    domain:
+      - _minecraft._tcp.play.skimit.net
+      - _minecraft._tcp.skimit.net
+    type: SRV
+    sources:
+    extra:
+      - 10 10 25457 4.cn-sd-2022-03-20-00.skimit.net.
+      - 15 10 25565 4.cn-zj-2022-11-12-00.skimit.net.
+      - 15 10 35565 4.cn-js-2023-07-01-00.skimit.net.
+      - 20 8 30887 4.cn-js-2022-10-17-00.skimit.net.
+      - 30 11 35565 4.cn-sd-2023-06-19-00.skimit.net.
+      - 30 10 30887 4.cn-js-2022-10-17-00.skimit.net.
+    match_description:
+    description:
+    ttl: 300
+
+  - enabled: true
+    domain: skimit.net
+    type: [A, AAAA]
+    sources:
+      - skimit.net.s2-web.dogedns.com
+      - skimit-homepage.b0.aicdn.com
+      - http3.aicdn.com
+      - cl-gl9a3d64e9.gcdn.co
+    extra:
+    match_description:
+    description: 多吉云，又拍云，GCore
+    ttl: 300
+
+  - enabled: true
+    domain: www.skimit.net
+    type: [A, AAAA]
+    sources:
+      - www.skimit.net.s2-web.dogedns.com
+      - skimit-homepage.b0.aicdn.com
+      - http3.aicdn.com
+      - cl-gl9a3d64e9.gcdn.co
+    extra:
+    match_description:
+    description: 多吉云，又拍云，GCore
+    ttl: 300
+
+  - enabled: true
+    domain: survey.skimit.net
+    type: [A, AAAA]
+    sources:
+      - survey.skimit.net.s2-web.dogedns.com
+      - cl-gl9a3d64e9.gcdn.co
+    extra:
+    match_description:
+    description: 多吉云，GCore
+    ttl: 300
+
+  - enabled: true
+    domain: bluemap.skimit.net
+    type: [A, AAAA]
+    sources:
+      - bluemap.skimit.net.s2-web.dogedns.com
+      - skimit-bluemap.b0.aicdn.com
+      - http3.aicdn.com
+      - cl-gl9a3d64e9.gcdn.co
+    extra:
+    match_description:
+    description: 多吉云，又拍云，GCore
+    ttl: 300
+
+  - enabled: true
+    domain: plan.skimit.net
+    type: [A, AAAA]
+    sources:
+      - plan.skimit.net.s2-web.dogedns.com
+      - cl-gl9a3d64e9.gcdn.co
+    extra:
+    match_description:
+    description: 多吉云，GCore
+    ttl: 300

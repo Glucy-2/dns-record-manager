@@ -27,18 +27,32 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          python-version: '3.11'
           cache: 'pip'
       
       # Install dependencies
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
+      # Restore IP lists
+      # - name: Restore IP lists
+      #   uses: actions/cache/resore@v3
+      #   with:
+      #     path: ip-lists.zip
+      #     key: ip-lists.zip
+
       # Run script
       - name: Update DNS
         run: |
-          python dns_record_manager.py
+          python dns_record_updater.py
         env: # Set environment variables
-          HW_API_KEY: ${{ secrets.HW_API_KEY }}
-          HW_API_SECRET: ${{ secrets.HW_API_SECRET }}
+          HUAWEICLOUD_SDK_AK: ${{ secrets.HUAWEICLOUD_SDK_AK }}
+          HUAWEICLOUD_SDK_SK: ${{ secrets.HUAWEICLOUD_SDK_SK }}
+
+      # Save IP lists
+      # - name: Save IP lists
+      #   uses: actions/cache/resore@v3
+      #   with:
+      #     path: ip-lists.zip
+      #     key: ip-lists.zip
+
