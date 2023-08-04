@@ -46,10 +46,10 @@ update_items:
       - skimit.net.s2-web.dogedns.com
       - skimit-homepage.b0.aicdn.com
       - http3.aicdn.com
-      - cl-gl9a3d64e9.gcdn.co
+      # - cl-gl9a3d64e9.gcdn.co
     extra:
     match_description:
-    description: 多吉云，又拍云，GCore
+    description: 多吉云，又拍云
     ttl: 300
 
   - enabled: true
@@ -59,10 +59,22 @@ update_items:
       - www.skimit.net.s2-web.dogedns.com
       - skimit-homepage.b0.aicdn.com
       - http3.aicdn.com
-      - cl-gl9a3d64e9.gcdn.co
+      # - cl-gl9a3d64e9.gcdn.co
     extra:
     match_description:
-    description: 多吉云，又拍云，GCore
+    description: 多吉云，又拍云
+    ttl: 300
+
+  - enabled: true
+    domain: status.skimit.net
+    type: [A, AAAA]
+    sources:
+      - status.skimit.net.s2-web.dogedns.com
+      - skimit-status.b0.aicdn.com
+      - http3.aicdn.com
+    extra:
+    match_description:
+    description: 多吉云，又拍云
     ttl: 300
 
   - enabled: true
@@ -86,7 +98,7 @@ update_items:
       # - cl-gl9a3d64e9.gcdn.co
     extra:
     match_description:
-    description: 多吉云，又拍云，GCore
+    description: 多吉云，又拍云
     ttl: 300
 
   - enabled: true
@@ -99,5 +111,5 @@ update_items:
       # - cl-gl9a3d64e9.gcdn.co
     extra:
     match_description:
-    description: 多吉云，又拍云，GCore
+    description: 多吉云，又拍云
     ttl: 300
