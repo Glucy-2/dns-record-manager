@@ -34,11 +34,10 @@ update_items:
       - 10 20 25565 4.cn-sd-2022-09-14-00.skimit.net. # lye（临沂教育网）
       - 10 5 35565 4.cn-js-2023-07-01-00.skimit.net. # sqm（宿迁多线，喵云，QUIC隧道）
       - 10 5 35566 4.cn-js-2023-07-01-00.skimit.net. # sqm（宿迁多线，喵云，TCP隧道）
-      - 10 15 35565 6.cn-js-2023-08-16-00.skimit.net. # nju（南京联通，家宽）
+      - 10 10 35565 6.cn-js-2023-08-16-00.skimit.net. # nju（南京联通，家宽）
       - 10 15 35565 4.cn-js-2023-07-01-00.skimit.net. # nju（南京联通，家宽）
       - 10 20 35565 4.cn-sd-2023-06-19-00.skimit.net. # jnm（济宁移动，无忧云）
       - 15 10 60616 4.cn-sd-2022-03-20-00.skimit.net. # zzs（枣庄多线，樱花frp枣庄多线6）
-      - 15 8 30887 4.cn-js-2022-10-17-00.skimit.net. # sqq（宿迁电信，七星云）
     match_description:
     description:
     ttl: 300
